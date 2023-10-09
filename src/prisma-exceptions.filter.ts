@@ -13,7 +13,10 @@ export class PrismaExceptionsFilter extends BaseExceptionFilter {
     const exceptions: Record<string, { statusCode: number; message: string }> = {
       P2000: { statusCode: HttpStatus.BAD_REQUEST, message: 'Bad Request' },
       P2002: { statusCode: HttpStatus.CONFLICT, message: 'Resource already exists' },
-      P2025: { statusCode: HttpStatus.NOT_FOUND, message: exception.message },
+      P2025: {
+        statusCode: HttpStatus.NOT_FOUND,
+        message: exception.meta?.cause || exception.message,
+      },
     };
 
     const data = exceptions[exception.code];
